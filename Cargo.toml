@@ -1,0 +1,14 @@
+[workspace]
+resolver = "3"
+
+members = ["shell", "core", "parser"]
+
+# Make `cargo run` from the workspace root target the CLI crate by default
+# default-members = ["cli"]
+
+[workspace.dependencies]
+cupid_shell = { path = "shell" }
+cupid_core = { path = "core" }
+cupid_parser = { path = "parser" }
+
+rustyline = "17.0.1"

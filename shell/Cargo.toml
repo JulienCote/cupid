@@ -1,0 +1,9 @@
+[package]
+name = "cupid_shell"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+rustyline = { workspace = true }
+cupid_parser = { workspace = true }
+cupid_core = { workspace = true }
