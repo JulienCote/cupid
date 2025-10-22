@@ -16,6 +16,10 @@ pub enum Value {
 
     Guid(uuid::Uuid),
     Guids(Vec<uuid::Uuid>),
+
+    // a Symbol is an integer-key that maps to a string in a symbol table
+    Symbol(u64),
+    Symbols(Vec<u64>),
 }
 
 impl From<Vec<Value>> for Value {
@@ -114,6 +118,12 @@ impl From<Vec<uuid::Uuid>> for Value {
     }
 }
 
+impl From<String> for Value {
+    fn from(s: String) -> Self {
+        Value::Chars(s.chars().collect())
+    }
+}
+
 impl Value {
     pub fn rank(&self) -> usize {
         match self {
@@ -142,6 +152,8 @@ impl Value {
             Value::Doubles(_) => "Doubles",
             Value::Guid(_) => "Guid",
             Value::Guids(_) => "Guids",
+            Value::Symbol(_) => "Symbol",
+            Value::Symbols(_) => "Symbols",
         }
     }
 
@@ -166,6 +178,8 @@ impl Value {
             Value::Doubles(_) => "Doubles".to_string(),
             Value::Guid(_) => "Guid".to_string(),
             Value::Guids(_) => "Guids".to_string(),
+            Value::Symbol(_) => "Symbol".to_string(),
+            Value::Symbols(_) => "Symbols".to_string(),
         }
     }
 
@@ -191,7 +205,25 @@ impl Value {
             Value::Doubles(_) => format!("Doubles[{}]", self.rank()),
             Value::Guid(_) => "Guid".to_string(),
             Value::Guids(_) => format!("Guids[{}]", self.rank()),
+            Value::Symbol(_) => "Symbol".to_string(),
+            Value::Symbols(_) => format!("Symbols[{}]", self.rank()),
         }
+    }
+
+    pub fn is_boolean(&self) -> bool {
+        matches!(self, Value::Bool(_))
+    }
+
+    pub fn is_integer(&self) -> bool {
+        matches!(self, Value::Integer(_))
+    }
+
+    pub fn is_double(&self) -> bool {
+        matches!(self, Value::Double(_))
+    }
+
+    pub fn is_chars(&self) -> bool {
+        matches!(self, Value::Chars(_))
     }
 }
 

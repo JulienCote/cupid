@@ -10,8 +10,6 @@ use crate::{
 pub struct Context {
     pub variables: HashMap<String, Value>,
     pub lambdas: LambdaRegistry,
-    // pub program: Vec<Token>,
-    // pub program_counter: usize,
     pub op_stack: Vec<Rc<Lambda>>,
     pub value_stack: Vec<Value>,
 }
@@ -45,6 +43,18 @@ impl Context {
                         .clone();
                     self.op_stack.push(lambda);
                 }
+                Token::Colon => {
+                    let lambda = self
+                        .lambdas
+                        .lambdas
+                        .get(":")
+                        .ok_or("Unknown operator: :".to_string())?
+                        .clone();
+                    self.op_stack.push(lambda);
+                }
+                Token::Identifier(name) => {
+                    self.value_stack.push(Value::Chars(name.chars().collect()));
+                }
                 _ => return Err(format!("Unsupported token in context load: {:?}", token)),
             }
         }
@@ -68,7 +78,10 @@ impl Context {
             .drain(self.value_stack.len() - rank..)
             .collect();
 
-        let result = next_op.lambda.call(&args)?;
+        let result = match &next_op.lambda {
+            crate::lambdas::LambdaType::Regular(f) => f.call(&args)?,
+            crate::lambdas::LambdaType::Mutating(f) => f.call_mut(self, &args)?,
+        };
 
         println!(
             "\tExecuted operation: {}, args: {:?}, result: {:?}",

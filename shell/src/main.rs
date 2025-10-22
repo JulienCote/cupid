@@ -54,6 +54,8 @@ fn main() {
                         }
                     }
                 }
+
+                println!("Variables: {:?}", context.variables);
             }
             Err(ReadlineError::Interrupted) => {
                 println!("^C");
