@@ -1,49 +1,53 @@
+mod atom;
 mod inner_types;
-pub mod operators;
+mod list;
 mod super_type;
 
-pub use inner_types::{TypeFloat, TypeFloats, TypeInt, TypeInts};
+pub use atom::Atom;
+pub use list::List;
 pub use super_type::SuperType;
 
-/// Base trait for all types in the system
-pub trait Type {
-    fn name(&self) -> &str;
-    fn type_id(&self) -> char;
-    fn attributes(&self) -> u8;
-    fn size(&self) -> usize;
+use crate::Error;
+
+#[repr(u8)]
+#[rustfmt::skip] // to keep bits aligned
+pub enum Attribute {
+    None =    0b0000_0000,
+    Sorted =  0b0000_0001,
+    Unique =  0b0000_0010,
+    Parted =  0b0000_0100,
+    Grouped = 0b0000_1000,
 }
 
-/// Trait for types that can be promoted to a common type
-/// This enables automatic type coercion (e.g., Int -> Float)
-pub trait Promote<Rhs = Self> {
-    type Output: Type;
-    fn promote_pair(self, rhs: Rhs) -> (Self::Output, Self::Output);
+impl Attribute {
+    pub fn has_sorted(v: u8) -> bool {
+        (v & Attribute::Sorted as u8) != 0
+    }
+
+    pub fn has_unique(v: u8) -> bool {
+        (v & Attribute::Unique as u8) != 0
+    }
+
+    pub fn has_parted(v: u8) -> bool {
+        (v & Attribute::Parted as u8) != 0
+    }
+
+    pub fn has_grouped(v: u8) -> bool {
+        (v & Attribute::Grouped as u8) != 0
+    }
 }
 
-/// Optional trait for types that support numeric operations
-/// Types like Lambda can simply not implement this trait
-pub trait NumericOps: Type + Sized {
-    fn add(self, rhs: Self) -> Self;
-    fn sub(self, rhs: Self) -> Self;
-    fn mul(self, rhs: Self) -> Self;
-    fn div(self, rhs: Self) -> Self;
+pub trait TypeTrait {
+    // Returns the type identifier.
+    fn get_type() -> i16;
+
+    // Returns the number of elements in this type.
+    fn count(&self) -> usize;
+
+    fn get_attributes(&self) -> u8;
+    fn set_attribute(&mut self, attribute: Attribute) -> Result<(), Error>;
 }
 
-/// Trait for efficient scalar-vector broadcasting operations
-/// This allows operations like scalar + vector without allocating a broadcast vector
-pub trait BroadcastOps<Scalar>: Type + Sized {
-    type Output: Type;
-    fn broadcast_add(self, scalar: Scalar) -> Self::Output;
-    fn broadcast_sub(self, scalar: Scalar) -> Self::Output;
-    fn broadcast_mul(self, scalar: Scalar) -> Self::Output;
-    fn broadcast_div(self, scalar: Scalar) -> Self::Output;
-}
-
-/// Trait for efficient reverse scalar-vector broadcasting (scalar op vector)
-pub trait ReverseBroadcastOps<Vector>: Type + Sized {
-    type Output: Type;
-    fn rbroadcast_add(self, vector: Vector) -> Self::Output;
-    fn rbroadcast_sub(self, vector: Vector) -> Self::Output;
-    fn rbroadcast_mul(self, vector: Vector) -> Self::Output;
-    fn rbroadcast_div(self, vector: Vector) -> Self::Output;
+pub trait InnerTypeTrait {
+    fn get_type() -> i16;
 }

@@ -1,40 +1,91 @@
-use crate::type_system::Type;
+use crate::type_system::{
+    Atom, List,
+    inner_types::{TypeBool, TypeByte, TypeChar, TypeFloat, TypeInt, TypeMixedList},
+};
 
-/// SuperType is a wrapper that provides a unified interface for all types
-/// implementing the Type trait. It allows for type-safe operations while
-/// maintaining the state type pattern.
-#[derive(Clone, Debug)]
-pub struct SuperType<T: Type>(pub T);
+#[derive(Clone, Debug, PartialEq)]
+pub enum SuperType {
+    Nothing,                  // TODO: Is this really needed?
+    MixedList(TypeMixedList), // Mixed list is sort of special so it deserves an additional wrapper
 
-impl<T: Type> Type for SuperType<T> {
-    fn name(&self) -> &str {
-        self.0.name()
-    }
+    Bool(Atom<TypeBool>),
+    Bools(List<TypeBool>),
 
-    fn type_id(&self) -> char {
-        self.0.type_id()
-    }
+    Byte(Atom<TypeByte>),
+    Bytes(List<TypeByte>),
 
-    fn attributes(&self) -> u8 {
-        self.0.attributes()
-    }
+    Int(Atom<TypeInt>),
+    Ints(List<TypeInt>),
 
-    fn size(&self) -> usize {
-        self.0.size()
+    Float(Atom<TypeFloat>),
+    Floats(List<TypeFloat>),
+
+    Char(Atom<TypeChar>),
+    Chars(List<TypeChar>),
+
+    Table,
+    Dictionary,
+    Lambda,
+    UnaryOperation,
+    BinaryOperation,
+}
+
+impl From<bool> for SuperType {
+    fn from(value: bool) -> Self {
+        SuperType::Bool(value.into())
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::type_system::inner_types::TypeInt;
+impl From<Vec<bool>> for SuperType {
+    fn from(values: Vec<bool>) -> Self {
+        SuperType::Bools(values.into())
+    }
+}
 
-    #[test]
-    fn super_type() {
-        let int_type = SuperType(TypeInt(42));
-        assert_eq!(int_type.name(), "Int");
-        assert_eq!(int_type.type_id(), 'i');
-        assert_eq!(int_type.attributes(), 0);
-        assert_eq!(int_type.size(), 1);
+impl From<u8> for SuperType {
+    fn from(value: u8) -> Self {
+        SuperType::Byte(value.into())
+    }
+}
+
+impl From<Vec<u8>> for SuperType {
+    fn from(values: Vec<u8>) -> Self {
+        SuperType::Bytes(values.into())
+    }
+}
+
+impl From<i32> for SuperType {
+    fn from(value: i32) -> Self {
+        SuperType::Int(value.into())
+    }
+}
+
+impl From<Vec<i32>> for SuperType {
+    fn from(values: Vec<i32>) -> Self {
+        SuperType::Ints(values.into())
+    }
+}
+
+impl From<f64> for SuperType {
+    fn from(value: f64) -> Self {
+        SuperType::Float(value.into())
+    }
+}
+
+impl From<Vec<f64>> for SuperType {
+    fn from(values: Vec<f64>) -> Self {
+        SuperType::Floats(values.into())
+    }
+}
+
+impl From<char> for SuperType {
+    fn from(value: char) -> Self {
+        SuperType::Char(value.into())
+    }
+}
+
+impl From<Vec<char>> for SuperType {
+    fn from(values: Vec<char>) -> Self {
+        SuperType::Chars(values.into())
     }
 }

@@ -1,8 +1,11 @@
+mod type_bool;
+mod type_byte;
+mod type_char;
 mod type_float;
-mod type_floats;
 mod type_int;
-mod type_ints;
+mod type_mixed_list;
 
 pub use self::{
-    type_float::TypeFloat, type_floats::TypeFloats, type_int::TypeInt, type_ints::TypeInts,
+    type_bool::TypeBool, type_byte::TypeByte, type_char::TypeChar, type_float::TypeFloat,
+    type_int::TypeInt, type_mixed_list::TypeMixedList,
 };
