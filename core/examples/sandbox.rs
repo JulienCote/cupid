@@ -1,8 +1,8 @@
 use std::vec;
 
 use cupid_core::{
-    sandbox::{execution_context::ExecutionContext, instruction::Instruction},
-    type_system::SuperType,
+    core::{execution_context::ExecutionContext, instruction::Instruction},
+    lang::SuperType,
 };
 
 fn main() {

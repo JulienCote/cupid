@@ -1,6 +1,6 @@
 use crate::{
     Error,
-    type_system::{InnerTypeTrait, TypeTrait},
+    lang::type_system::{InnerTypeTrait, TypeTrait},
 };
 
 use super::Attribute;

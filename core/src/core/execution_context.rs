@@ -2,8 +2,8 @@ use std::{cell::RefCell, rc::Rc};
 
 use crate::{
     Error,
-    sandbox::{instruction::Instruction, variable::Variables},
-    type_system::SuperType,
+    core::{instruction::Instruction, variable::Variables},
+    lang::SuperType,
 };
 
 #[derive(Clone, Debug, Default)]

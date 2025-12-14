@@ -1,6 +1,6 @@
-use crate::type_system::{
+use crate::lang::type_system::{
     Atom, List,
-    inner_types::{TypeBool, TypeByte, TypeChar, TypeFloat, TypeInt, TypeMixedList},
+    inner_types::{TypeBool, TypeByte, TypeChar, TypeFloat, TypeInt, TypeMixedList, TypeOperator},
 };
 
 #[derive(Clone, Debug, PartialEq)]
@@ -27,7 +27,7 @@ pub enum SuperType {
     Dictionary,
     Lambda,
     UnaryOperation,
-    BinaryOperation,
+    BinaryOperation(TypeOperator),
 }
 
 impl From<bool> for SuperType {

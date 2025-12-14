@@ -1,4 +1,4 @@
-use crate::type_system::{Atom, InnerTypeTrait, List};
+use crate::lang::type_system::{Atom, InnerTypeTrait, List};
 
 #[derive(Clone, Debug, Copy, PartialEq, Eq)]
 pub struct TypeInt(pub i32);

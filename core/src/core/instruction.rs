@@ -1,6 +1,6 @@
 use std::rc::Rc;
 
-use crate::type_system::SuperType;
+use crate::lang::{SuperType, invokable::operator::Operator};
 
 #[derive(Debug, Clone)]
 pub enum Instruction {
@@ -48,7 +48,7 @@ pub enum Instruction {
         value: SuperType,
     },
     BinaryOperation {
-        op: String,
+        op: Operator,
         left: SuperType,
         right: SuperType,
     },

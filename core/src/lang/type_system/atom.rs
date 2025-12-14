@@ -1,7 +1,7 @@
 use super::Attribute;
 use crate::{
     Error,
-    type_system::{InnerTypeTrait, List, TypeTrait},
+    lang::type_system::{InnerTypeTrait, List, TypeTrait},
 };
 
 #[derive(Debug, Clone, PartialEq)]

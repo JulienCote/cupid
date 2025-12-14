@@ -1,6 +1,6 @@
 use std::{collections::HashMap, rc::Rc};
 
-use crate::type_system::SuperType;
+use crate::lang::SuperType;
 
 #[derive(Clone, Debug, Default)]
 pub struct Variables(HashMap<String, Rc<SuperType>>);

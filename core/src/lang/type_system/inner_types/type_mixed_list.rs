@@ -1,6 +1,6 @@
 use crate::{
     Error,
-    type_system::{Atom, InnerTypeTrait, List, SuperType},
+    lang::type_system::{Atom, InnerTypeTrait, List, SuperType},
 };
 
 #[derive(Clone, Debug, PartialEq)]
