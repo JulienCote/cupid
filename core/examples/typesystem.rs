@@ -49,7 +49,22 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
     assert_eq!(byte_sum, TypeInt(150));
 
-    // 5. Mixed Operations (Not directly supported by traits yet, but we can see the types)
+    // 5. Casting
+    let int_val = TypeInt(42);
+    let float_val: TypeFloat = int_val.into();
+    println!("Cast Int {:?} to Float {:?}", int_val, float_val);
+    assert_eq!(float_val, TypeFloat(42.0));
+
+    let float_val2 = TypeFloat(123.456);
+    let int_val2: TypeInt = float_val2.into();
+    println!("Cast Float {:?} to Int {:?}", float_val2, int_val2);
+    assert_eq!(int_val2, TypeInt(123)); // 123.456 rounds to 123
+
+    let float_val3 = TypeFloat(123.6);
+    let int_val3: TypeInt = float_val3.into();
+    println!("Cast Float {:?} to Int {:?}", float_val3, int_val3);
+    assert_eq!(int_val3, TypeInt(124)); // 123.6 rounds to 124
+
     println!("\nType System is working as expected!");
 
     Ok(())

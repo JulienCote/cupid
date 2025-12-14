@@ -8,7 +8,7 @@ pub struct ParseTree {
 }
 
 pub enum ParseTreeNode {
-    Literal(SuperType),
-    Variable(String),
-    ParseTree(ParseTree),
+    Literal(SuperType),   // just a value
+    Variable(String),     // variable name, needs to be resolved
+    ParseTree(ParseTree), // nested parse tree, e.g. for function calls
 }
