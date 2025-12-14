@@ -6,3 +6,4 @@ edition = "2024"
 [dependencies]
 uuid = "1.18.1"
 cupid_parser = { workspace = true }
+cupid_macros = { path = "../macros" }

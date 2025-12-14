@@ -1,22 +1,10 @@
 use crate::{
     Error,
-    lang::type_system::{Atom, InnerTypeTrait, List, SuperType},
+    lang::type_system::{InnerTypeTrait, SuperType},
 };
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct TypeMixedList(pub List<SuperType>);
-
-impl From<List<SuperType>> for TypeMixedList {
-    fn from(value: List<SuperType>) -> Self {
-        TypeMixedList(value)
-    }
-}
-
-impl From<List<SuperType>> for Atom<TypeMixedList> {
-    fn from(value: List<SuperType>) -> Self {
-        Atom::new(TypeMixedList(value))
-    }
-}
+pub struct TypeMixedList(pub Vec<SuperType>);
 
 impl InnerTypeTrait for TypeMixedList {
     fn get_type() -> i16 {
@@ -26,7 +14,7 @@ impl InnerTypeTrait for TypeMixedList {
 
 impl From<Vec<SuperType>> for TypeMixedList {
     fn from(values: Vec<SuperType>) -> Self {
-        TypeMixedList(List::new(values))
+        TypeMixedList(values)
     }
 }
 

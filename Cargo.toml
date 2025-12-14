@@ -1,7 +1,7 @@
 [workspace]
 resolver = "3"
 
-members = ["shell", "core", "parser"]
+members = ["shell", "core", "parser", "macros"]
 
 # Make `cargo run` from the workspace root target the CLI crate by default
 # default-members = ["cli"]

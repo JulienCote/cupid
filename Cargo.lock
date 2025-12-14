@@ -39,8 +39,18 @@ dependencies = [
 name = "cupid_core"
 version = "0.1.0"
 dependencies = [
+ "cupid_macros",
  "cupid_parser",
  "uuid",
+]
+
+[[package]]
+name = "cupid_macros"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

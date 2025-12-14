@@ -4,7 +4,9 @@ mod list;
 mod super_type;
 
 pub use atom::Atom;
-pub use inner_types::TypeOperator;
+pub use inner_types::{
+    TypeBool, TypeByte, TypeChar, TypeFloat, TypeInt, TypeMixedList, TypeOperator,
+};
 pub use list::List;
 pub use super_type::SuperType;
 
